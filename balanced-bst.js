@@ -46,11 +46,57 @@ class Tree {
 
 		return midNode
 	}
-	
+
+	insert(value, node = this.root) {
+		if(!node){
+			return 'there is no binary tree'
+		}
+
+		if(value < node.data){
+			if(!node.left){
+				const newNode = new Node(value);
+				return node.left = newNode;
+			}else{
+				node = node.left;
+				this.insert(value, node);
+			}
+		}else if(value > node.data){
+			if(!node.right){
+				const newNode = new Node(value);
+				return node.right = newNode;
+			}else{
+				node = node.right;
+				this.insert(value, node);
+			}
+		}else{
+			throw 'integer already in tree'
+		}
+	}
+
+	delete(value, node = this.root){
+		if(!node){
+			return 'there is no binary tree'
+		}
+
+		if(value < node.data) {
+			node = node.left;
+			this.delete(value, node);
+		}else if(value > node.data) {
+			node = node.right;
+			this.delete(value, node);
+		}else if(value === node.data) {
+			if(!node.left && !node.right){
+				console.log(node)
+				return node = null;
+			}
+		}
+	}
 }
 
-
-arr1 = [5,8,15, 55, 68, 5, 2, 7,99];
+arr1 = [5, 8, 15, 55, 68, 5, 2, 7, 99];
 let tree = new Tree(arr1);
+// console.log(tree.root);
+// tree.insert(9);
+tree.delete(2)
 prettyPrint(tree.root);
-console.log(tree.root);
+console.log(tree.root.left.left.left);
