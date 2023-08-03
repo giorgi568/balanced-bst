@@ -74,29 +74,48 @@ class Tree {
 	}
 
 	delete(value, node = this.root){
-		if(!node){
-			return 'there is no binary tree'
-		}
+      if (node === null) {
+        return node;
+      }
 
-		if(value < node.data) {
-			node = node.left;
-			this.delete(value, node);
-		}else if(value > node.data) {
-			node = node.right;
-			this.delete(value, node);
-		}else if(value === node.data) {
-			if(!node.left && !node.right){
-				console.log(node)
-				return node = null;
-			}
-		}
-	}
+      if (value < node.data) {
+        node.left = this.delete(value, node.left);
+      } else if (value > node.data) {
+        node.right = this.delete(value, node.right);
+      } 
+
+      else {
+        if (node.left === null) {
+          return node.right;
+        } else if (node.right === null) {
+          return node.left;
+        }
+        else {
+          const minData = function findNextSmallestRightData(node) {
+            let min = node.data;
+            let newRoot = node;
+
+            while (newRoot.left !== null) {
+              min = node.left.data;
+              newRoot = node.left;
+            }
+
+            return min;
+          }
+
+          node.data = minData(node.right);
+          node.right = this.delete(node.data, node.right)
+        }
+      }
+
+      return node;
+  }
 }
 
 arr1 = [5, 8, 15, 55, 68, 5, 2, 7, 99];
 let tree = new Tree(arr1);
 // console.log(tree.root);
 // tree.insert(9);
-tree.delete(2)
+tree.delete(68)
 prettyPrint(tree.root);
-console.log(tree.root.left.left.left);
+// console.log(tree.root.left.left.left);
