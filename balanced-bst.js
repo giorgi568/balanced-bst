@@ -110,12 +110,67 @@ class Tree {
 
       return node;
   }
+
+  find(value, node = this.root) {
+  	// let node = this.root;
+
+  	//for when there is no such value
+  	if(!node){
+  		return 'no such value';
+  	}
+
+  	if(node.data === value){
+  		return node
+  	}else if(value < node.data){
+  		return this.find(value, node.left);
+  	}else if(value > node.data){
+  		return this.find(value, node.right);
+  	}
+  }
+  
+  levelOrder(pFunction){
+  	//pfunction is function that this function takes as a parameter
+
+  	let node = this.root;
+  	if(!node){
+  		throw "there is no binary tree"
+  	}
+  	let queue = [node];
+  	let levelOrder = [];
+
+  	while(queue.length > 0){
+  		if(queue[0].left){
+  			queue.push(queue[0].left);
+  		}
+  		if(queue[0].right){
+  			queue.push(queue[0].right);
+  		}
+  		levelOrder.push(queue[0]);
+  		queue.shift();
+  	}
+
+  	if(pFunction){
+  		pFunction(levelOrder);
+  	}else{
+  		return levelOrder;
+  	}
+  }
+
 }
+
+function printNodeCb(arr) {
+  	for(i in arr){
+  		console.log(arr[i]);
+  	}
+  }
 
 arr1 = [5, 8, 15, 55, 68, 5, 2, 7, 99];
 let tree = new Tree(arr1);
 // console.log(tree.root);
 // tree.insert(9);
-tree.delete(68)
+// tree.delete(68);
 prettyPrint(tree.root);
 // console.log(tree.root.left.left.left);
+// console.log(tree.find(55))
+// console.log(tree.levelOrder());
+// tree.levelOrder(printNodeCb)
