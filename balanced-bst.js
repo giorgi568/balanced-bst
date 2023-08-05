@@ -156,6 +156,68 @@ class Tree {
   	}
   }
 
+  inorder(node = this.root, arr = [], pFunction) {
+  	//pfunction is function that this function takes as a parameter
+  	if(!node){
+  		return
+  	}
+  	if(node.left){
+  		this.inorder(node.left, arr);
+  	}
+
+  	arr.push(node.data);
+
+  	if(node.right){
+  		this.inorder(node.right, arr);
+  	}
+  	if(pFunction){
+  		pFunction(arr);
+  	}else{
+  		return arr;
+  	}
+  }
+
+  preorder(node = this.root, arr = [], pFunction) {
+  	//pfunction is function that this function takes as a parameter
+  	if(!node){
+  		return
+  	}
+
+  	arr.push(node.data);
+
+  	if(node.left){
+  		this.preorder(node.left, arr);
+  	}
+
+  	if(node.right){
+  		this.preorder(node.right, arr);
+  	}
+
+  	return arr;
+  }
+
+  postorder(node = this.root, arr = [], pFunction) {
+  	//pfunction is function that this function takes as a parameter
+  	if(!node){
+  		return
+  	}
+
+  	if(node.left){
+  		this.postorder(node.left, arr);
+  	}
+
+  	if(node.right){
+  		this.postorder(node.right, arr);
+  	}
+
+  	arr.push(node.data);
+
+  	return arr;
+  }
+
+
+
+
 }
 
 function printNodeCb(arr) {
@@ -173,4 +235,6 @@ prettyPrint(tree.root);
 // console.log(tree.root.left.left.left);
 // console.log(tree.find(55))
 // console.log(tree.levelOrder());
-// tree.levelOrder(printNodeCb)
+// tree.levelOrder(printNodeCb);
+console.log(tree.postorder())
+
