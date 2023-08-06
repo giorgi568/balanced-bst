@@ -215,7 +215,55 @@ class Tree {
   	return arr;
   }
 
-  height(node = this.root, leftH = 0, rightH = 0){
+  height(node = this.root){
+  	if(!node){
+  		return 0
+  	}
+
+  	let leftH = this.height(node.left);
+  	let rightH = this.height(node.right);
+
+  	// return leftH > rightH ? leftH : rightH;
+  	if (leftH > rightH) {
+  			if(!node.left && !node.right){
+  				return leftH
+  			}
+        return leftH + 1;
+    } else {
+    	if(!node.left && !node.right){
+  				return rightH
+  			}
+        return rightH + 1;
+      }
+
+  }
+
+  depth(node){
+  	let root = this.root 	
+  	if(!root){
+  		return 0;
+  	}
+
+  	if(!node){
+  		throw 'such node doesnt exist'
+  	}
+  	
+  	let depth = 0;
+
+  	while(node.data !== root.data){
+  		if(node.data < root.data){
+  			root = root.left;
+  			depth++;
+  		}else{
+  			root = root.right;
+  			depth++;
+  		}
+  	}
+
+  	return depth;
+  }
+
+  isBalanced(node = this.root, leftH = 0, rightH = 0){
   	if(!node){
   		return
   	}
@@ -228,13 +276,9 @@ class Tree {
   		leftH = this.height(node.right, leftH, rightH);
   	}
 
-  	if(leftH > rightH){
-  		return leftH
-  	}else{
-  		return rightH
-  	}
+  	return leftH > rightH ? leftH : rightH;
 
-  }
+	}
 
 }
 
@@ -247,7 +291,11 @@ function printNodeCb(arr) {
 arr1 = [5, 8, 15, 55, 68, 5, 2, 7, 99];
 let tree = new Tree(arr1);
 // console.log(tree.root);
-// tree.insert(9);
+tree.insert(58);
+tree.insert(561);
+tree.insert(1531);
+tree.insert(15153);
+tree.insert(148545);
 // tree.delete(68);
 prettyPrint(tree.root);
 // console.log(tree.root.left.left.left);
@@ -255,4 +303,6 @@ prettyPrint(tree.root);
 // console.log(tree.levelOrder());
 // tree.levelOrder(printNodeCb);
 // console.log(tree.postorder())
-console.log(tree.height(tree.root.right.right))
+console.log(tree.height(tree.root))
+
+// console.log(tree.depth(tree.root.right.right))
