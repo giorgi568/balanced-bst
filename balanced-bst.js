@@ -215,8 +215,26 @@ class Tree {
   	return arr;
   }
 
+  height(node = this.root, leftH = 0, rightH = 0){
+  	if(!node){
+  		return
+  	}
 
+  	if(node.left){
+  		leftH++;
+  		leftH = this.height(node.left, leftH, rightH);
+  	}else if(node.right){
+  		rightH++;
+  		leftH = this.height(node.right, leftH, rightH);
+  	}
 
+  	if(leftH > rightH){
+  		return leftH
+  	}else{
+  		return rightH
+  	}
+
+  }
 
 }
 
@@ -236,5 +254,5 @@ prettyPrint(tree.root);
 // console.log(tree.find(55))
 // console.log(tree.levelOrder());
 // tree.levelOrder(printNodeCb);
-console.log(tree.postorder())
-
+// console.log(tree.postorder())
+console.log(tree.height(tree.root.right.right))
