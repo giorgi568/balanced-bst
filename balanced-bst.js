@@ -145,7 +145,7 @@ class Tree {
   		if(queue[0].right){
   			queue.push(queue[0].right);
   		}
-  		levelOrder.push(queue[0]);
+  		levelOrder.push(queue[0].data);
   		queue.shift();
   	}
 
@@ -263,22 +263,31 @@ class Tree {
   	return depth;
   }
 
-  isBalanced(node = this.root, leftH = 0, rightH = 0){
-  	if(!node){
-  		return
+  isBalanced(node = this.root){
+  	let leftH = this.height(node.left);
+  	let rightH = this.height(node.right);
+  	let diff;
+
+  	if(leftH > rightH){
+  		diff = leftH - rightH;
+  	}else{
+  		diff = rightH - leftH;
   	}
 
-  	if(node.left){
-  		leftH++;
-  		leftH = this.height(node.left, leftH, rightH);
-  	}else if(node.right){
-  		rightH++;
-  		leftH = this.height(node.right, leftH, rightH);
-  	}
-
-  	return leftH > rightH ? leftH : rightH;
-
+  	return diff > 2 ? false : true
 	}
+
+	rebalance() {
+		if(this.isBalanced()){
+			return 'tree is already balanced'
+		}
+
+		let newTree = this.levelOrder();
+		this.root = this.buildTree(newTree);
+		// console.log(newTree)
+	}
+
+
 
 }
 
@@ -303,6 +312,10 @@ prettyPrint(tree.root);
 // console.log(tree.levelOrder());
 // tree.levelOrder(printNodeCb);
 // console.log(tree.postorder())
-console.log(tree.height(tree.root))
+// console.log(tree.height(tree.root))
 
 // console.log(tree.depth(tree.root.right.right))
+console.log(tree.isBalanced());
+tree.rebalance();
+prettyPrint(tree.root);
+console.log(tree.isBalanced());
